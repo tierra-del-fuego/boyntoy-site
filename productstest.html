@@ -254,15 +254,20 @@
     pagination.appendChild(next);
   }
 
-  fetch(url)
+  // ... HTML üstü aynı kalıyor
+
+fetch(url)
   .then(res => res.text())
   .then(text => JSON.parse(text.substr(47).slice(0, -2)))
   .then(json => {
     const data = json.table.rows;
     allProducts = data.map(row => {
       const cells = row.c.map(c => c ? c.v : "");
-      const [name, brand, price, ebay] = cells;
-      const images = cells.slice(4, 14); // SADECE Image1 - Image10
+      const name = cells[0] || "";
+      const brand = cells[1] || "";
+      const price = cells[2] || "";
+      const ebay = cells[3] || "";
+      const images = cells.slice(4, 14);
 
       const card = document.createElement("div");
       card.className = "product-card";
@@ -271,16 +276,28 @@
                         <p><strong>Brand:</strong> ${brand}</p>
                         <p><strong>Price:</strong> $${price}</p>`;
       card.onclick = () => openModal(name, brand, price, ebay, images);
-      return { card, name, brand };
+      return { card, name: name.toLowerCase(), brand: brand.toLowerCase() };
     });
     filteredProducts = allProducts;
     renderProducts(filteredProducts);
   });
 
-  window.addEventListener("resize", () => {
+// Arama kutusu düzgün çalışsın diye burada normalize ediyoruz
+
+const searchInput = document.getElementById("searchInput");
+if (searchInput) {
+  searchInput.addEventListener("input", function() {
+    const term = this.value.trim().toLowerCase();
+    filteredProducts = allProducts.filter(p =>
+      p.name.includes(term) || p.brand.includes(term)
+    );
     currentPage = 1;
     renderProducts(filteredProducts);
   });
+}
+
+// ... diğer kodlar aynı
+
 
   function openModal(name, brand, price, ebay, images) {
     document.getElementById("modalTitle").textContent = name;
