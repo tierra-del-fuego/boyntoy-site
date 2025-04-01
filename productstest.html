@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Boyntoy Product Gallery</title>
   <style>
     body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+
+    .search-box { text-align: center; margin-bottom: 20px; }
+    .search-box input {
+      padding: 10px; font-size: 16px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      grid-auto-rows: 420px;
+      align-items: stretch;
     }
+
     .product-card {
       background: white;
       padding: 15px;
@@ -18,14 +30,24 @@
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
       cursor: pointer;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+
     .product-card img {
       width: 100%;
       height: 180px;
       object-fit: contain;
       margin-bottom: 10px;
     }
-    .product-card h3 { margin: 10px 0 5px; font-size: 18px; }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+      flex-grow: 1;
+    }
+
     .pagination {
       display: flex;
       justify-content: center;
@@ -33,6 +55,7 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     .pagination button {
       padding: 8px 12px;
       border: none;
@@ -40,113 +63,272 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
     .pagination button.active {
       background: #ff6600;
       color: white;
     }
+
+    .modal, .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    .modal { background: rgba(0,0,0,0.7); }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-gallery img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .lightbox { background: rgba(0,0,0,0.9); }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 4px solid white;
+      border-radius: 10px;
+    }
+
+    .lightbox-controls {
+      position: absolute;
+      top: 50%;
+      width: 90vw;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .lightbox-controls button {
+      pointer-events: all;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      font-size: 36px;
+      cursor: pointer;
+      padding: 0 20px;
+      user-select: none;
+    }
+
+    .lightbox:after {
+      content: '✖';
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 32px;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      float: right;
+      background: #ff6600;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .ebay-link {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #ff6600;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
-  <h2 style="text-align:center">Product Gallery</h2>
-  <div class="product-grid" id="productGrid"></div>
-  <div class="pagination" id="pagination"></div>
 
-  <script>
-    const sheetID = "122nNrYsH7mPXPci6Ks8Ree-Cg5hOsdHttOsebX5gm3A";
-    const sheetRange = "Sheet1";
-    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetRange}`;
-    let currentPage = 1;
-    let allProducts = [];
-    let itemsPerPage = 8;
+<h2 style="text-align:center">Product Gallery</h2>
 
-    function calculateItemsPerPage() {
-      const screenWidth = window.innerWidth;
-      let columns = 1;
-      if (screenWidth > 1200) columns = 4;
-      else if (screenWidth > 800) columns = 3;
-      else if (screenWidth > 600) columns = 2;
-      else columns = 1;
-      const rows = Math.floor(window.innerHeight / 300); // 300px approx height per product card
-      return columns * rows || 1;
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search product name or brand...">
+</div>
+
+<div class="product-grid" id="productGrid"></div>
+<div class="pagination" id="pagination"></div>
+
+<!-- Modal -->
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">Close</button>
+    <h3 id="modalTitle"></h3>
+    <div class="modal-gallery" id="modalGallery"></div>
+    <p><strong>Brand:</strong> <span id="modalBrand"></span></p>
+    <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
+    <a id="modalEbay" class="ebay-link" href="#" target="_blank">Buy on eBay</a>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-controls">
+    <button onclick="prevImage(event)">←</button>
+    <button onclick="nextImage(event)">→</button>
+  </div>
+  <img src="" alt="Large View" id="lightboxImg">
+</div>
+
+<script>
+  const sheetID = "122nNrYsH7mPXPci6Ks8Ree-Cg5hOsdHttOsebX5gm3A";
+  const sheetRange = "Sheet1";
+  const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetRange}`;
+  let currentPage = 1;
+  let allProducts = [];
+  let filteredProducts = [];
+  let itemsPerPage = 8;
+  let currentGallery = [];
+  let currentImageIndex = 0;
+
+  function calculateItemsPerPage() {
+    const screenWidth = window.innerWidth;
+    let columns = screenWidth > 1400 ? 5 :
+                  screenWidth > 1024 ? 4 :
+                  screenWidth > 768  ? 3 :
+                  screenWidth > 500  ? 2 : 1;
+    return columns * 2;
+  }
+
+  function renderProducts(products) {
+    itemsPerPage = calculateItemsPerPage();
+    const start = (currentPage - 1) * itemsPerPage;
+    const visible = products.slice(start, start + itemsPerPage);
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = "";
+    visible.forEach(product => grid.appendChild(product.card));
+    renderPagination(products.length);
+  }
+
+  function renderPagination(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const prev = document.createElement("button");
+    prev.textContent = "←";
+    prev.onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(filteredProducts); }};
+    pagination.appendChild(prev);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.onclick = () => { currentPage = i; renderProducts(filteredProducts); };
+      pagination.appendChild(btn);
     }
 
-    function renderProducts(products) {
-      itemsPerPage = calculateItemsPerPage();
-      const start = (currentPage - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      const visible = products.slice(start, end);
+    const next = document.createElement("button");
+    next.textContent = "→";
+    next.onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(filteredProducts); }};
+    pagination.appendChild(next);
+  }
 
-      const grid = document.getElementById("productGrid");
-      grid.innerHTML = "";
-      visible.forEach(product => grid.appendChild(product.card));
+  fetch(url)
+  .then(res => res.text())
+  .then(text => JSON.parse(text.substr(47).slice(0, -2)))
+  .then(json => {
+    const data = json.table.rows;
+    allProducts = data.map(row => {
+      const cells = row.c.map(c => c ? c.v : "");
+      const [name, brand, price, ebay] = cells;
+      const images = cells.slice(4, 14); // SADECE Image1 - Image10
 
-      renderPagination(products.length);
-    }
-
-    function renderPagination(totalItems) {
-      const totalPages = Math.ceil(totalItems / itemsPerPage);
-      const pagination = document.getElementById("pagination");
-      pagination.innerHTML = "";
-
-      const prev = document.createElement("button");
-      prev.textContent = "←";
-      prev.onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(allProducts); } };
-      pagination.appendChild(prev);
-
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        if (i === currentPage) btn.classList.add("active");
-        btn.onclick = () => { currentPage = i; renderProducts(allProducts); };
-        pagination.appendChild(btn);
-      }
-
-      const next = document.createElement("button");
-      next.textContent = "→";
-      next.onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(allProducts); } };
-      pagination.appendChild(next);
-    }
-
-    fetch(url)
-      .then(res => res.text())
-      .then(text => JSON.parse(text.substr(47).slice(0, -2)))
-      .then(json => {
-        const data = json.table.rows;
-        allProducts = data.map(row => {
-          const cells = row.c.map(cell => cell ? cell.v : "");
-          const name = cells[0] || "";
-          const brand = cells[1] || "";
-          const price = cells[2] || "";
-          const ebay = cells[3] || "";
-          const images = cells.slice(4, 14);
-
-          const card = document.createElement("div");
-          card.className = "product-card";
-          card.innerHTML = `
-            <img src="${images[0] || ''}" alt="${name}">
-            <h3>${name}</h3>
-            <p><strong>Brand:</strong> ${brand}</p>
-            <p><strong>Price:</strong> $${price}</p>
-          `;
-          card.onclick = () => openModal(name, brand, price, ebay, images);
-
-          return { card };
-        });
-        renderProducts(allProducts);
-      })
-      .catch(err => {
-        document.getElementById("productGrid").innerText = "Failed to load products.";
-        console.error(err);
-      });
-
-    window.addEventListener("resize", () => {
-      currentPage = 1;
-      renderProducts(allProducts);
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `<img src="${images[0]}" alt="${name}">
+                        <h3>${name}</h3>
+                        <p><strong>Brand:</strong> ${brand}</p>
+                        <p><strong>Price:</strong> $${price}</p>`;
+      card.onclick = () => openModal(name, brand, price, ebay, images);
+      return { card, name, brand };
     });
+    filteredProducts = allProducts;
+    renderProducts(filteredProducts);
+  });
 
-    function openModal(name, brand, price, ebay, images) {
-      alert(`Product: ${name}\nBrand: ${brand}\nPrice: $${price}\nLink: ${ebay}`);
+  window.addEventListener("resize", () => {
+    currentPage = 1;
+    renderProducts(filteredProducts);
+  });
+
+  function openModal(name, brand, price, ebay, images) {
+    document.getElementById("modalTitle").textContent = name;
+    document.getElementById("modalBrand").textContent = brand;
+    document.getElementById("modalPrice").textContent = price;
+    document.getElementById("modalEbay").href = ebay;
+    const gallery = document.getElementById("modalGallery");
+    gallery.innerHTML = "";
+    currentGallery = images.filter(Boolean);
+    currentGallery.forEach((img, i) => {
+      const el = document.createElement("img");
+      el.src = img;
+      el.onclick = () => openLightbox(i);
+      gallery.appendChild(el);
+    });
+    document.getElementById("productModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+  }
+
+  function openLightbox(index) {
+    currentImageIndex = index;
+    document.getElementById("lightboxImg").src = currentGallery[index];
+    document.getElementById("lightbox").style.display = "flex";
+  }
+
+  function prevImage(e) {
+    e.stopPropagation();
+    if (currentImageIndex > 0) {
+      currentImageIndex--;
+      document.getElementById("lightboxImg").src = currentGallery[currentImageIndex];
     }
-  </script>
+  }
+
+  function nextImage(e) {
+    e.stopPropagation();
+    if (currentImageIndex < currentGallery.length - 1) {
+      currentImageIndex++;
+      document.getElementById("lightboxImg").src = currentGallery[currentImageIndex];
+    }
+  }
+
+  document.getElementById("lightbox").addEventListener("click", () => {
+    document.getElementById("lightbox").style.display = "none";
+  });
+</script>
+
 </body>
 </html>
