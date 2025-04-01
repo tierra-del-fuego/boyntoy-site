@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dil Menüsü Testi</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    #language-switcher {
+      display: flex;
+      gap: 12px;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    #language-switcher a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 4px 6px;
+      background: #f0f0f0;
+      border-radius: 6px;
+    }
+
+    #language-switcher img {
+      height: 18px;
+      margin-right: 6px;
+    }
+
+    /* Mobil görünüm */
+    @media (max-width: 768px) {
+      #language-switcher {
+        position: static;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        background: #fff;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      #language-switcher::-webkit-scrollbar {
+        height: 4px;
+      }
+
+      #language-switcher::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 2px;
+      }
+
+      #language-switcher a {
+        flex: 0 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="language-switcher">
+  <a href="#"><img src="https://flagcdn.com/w40/es.png"> Español</a>
+  <a href="#"><img src="https://flagcdn.com/w40/it.png"> Italiano</a>
+  <a href="#"><img src="https://flagcdn.com/w40/fr.png"> Français</a>
+  <a href="#"><img src="https://flagcdn.com/w40/de.png"> Deutsch</a>
+  <a href="#"><img src="https://flagcdn.com/w40/nl.png"> Nederlands</a>
+  <a href="#"><img src="https://flagcdn.com/w40/pt.png"> Português</a>
+  <a href="#"><img src="https://flagcdn.com/w40/ru.png"> Русский</a>
+  <a href="#"><img src="https://flagcdn.com/w40/cn.png"> 中文</a>
+</div>
+
+</body>
+</html>

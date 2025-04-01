@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boyntoy Products</title>
+  <style>
+    body { font-family: Arial; margin: 0; padding: 20px; background: #f8f8f8; }
+    h2 { text-align: center; }
+    .filter-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .filter-bar input {
+      padding: 10px;
+      width: 250px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ← sabit 4 sütun */
+  gap: 20px;
+  padding: 20px;
+}
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .product-card h3 { margin: 10px 0 5px; font-size: 18px; }
+    .product-card p { margin: 4px 0; }
+    .product-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 14px;
+      background: #ff6600;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .product-card a:hover {
+      background: #e65c00;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 10px;
+    }
+    .pagination button {
+      padding: 6px 12px;
+      border: none;
+      background-color: #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background-color: #ff6600;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Our Products</h2>
+
+  <div class="filter-bar">
+    <input type="text" id="brandSearch" placeholder="Search by brand...">
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+    const sheetID = "122nNrYsH7mPXPci6Ks8Ree-Cg5hOsdHttOsebX5gm3A";
+    const sheetRange = "Sheet1";
+    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetRange}`;
+
+    let allProducts = [];
+    let currentPage = 1;
+    const itemsPerPage = 8;
+
+    function displayProducts(products) {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+      const start = (currentPage - 1) * itemsPerPage;
+      const paginatedItems = products.slice(start, start + itemsPerPage);
+
+      paginatedItems.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <h3>${item.name}</h3>
+          <p><strong>Brand:</strong> ${item.brand}</p>
+          <p><strong>Price:</strong> $${item.price}</p>
+          <a href="${item.ebay}" target="_blank">Buy on eBay</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function setupPagination(products) {
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+      const totalPages = Math.ceil(products.length / itemsPerPage);
+
+      const prev = document.createElement("button");
+      prev.innerHTML = "←";
+      prev.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          displayProducts(products);
+          setupPagination(products);
+        }
+      }
+      pagination.appendChild(prev);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        if (i === currentPage) btn.classList.add("active");
+        btn.onclick = () => {
+          currentPage = i;
+          displayProducts(products);
+          setupPagination(products);
+        };
+        pagination.appendChild(btn);
+      }
+
+      const next = document.createElement("button");
+      next.innerHTML = "→";
+      next.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayProducts(products);
+          setupPagination(products);
+        }
+      }
+      pagination.appendChild(next);
+    }
+
+    function filterProductsByBrand(brand) {
+      const filtered = allProducts.filter(p => p.brand.toLowerCase().includes(brand.toLowerCase()));
+      currentPage = 1;
+      displayProducts(filtered);
+      setupPagination(filtered);
+    }
+
+    document.getElementById("brandSearch").addEventListener("input", (e) => {
+      filterProductsByBrand(e.target.value);
+    });
+
+    fetch(url)
+      .then(res => res.text())
+      .then(text => JSON.parse(text.substr(47).slice(0, -2)))
+      .then(json => {
+        const data = json.table.rows;
+        allProducts = data.map(row => {
+          const [name, brand, price, ebay, image] = row.c.map(cell => cell ? cell.v : "");
+          return { name, brand, price, ebay, image };
+        });
+        displayProducts(allProducts);
+        setupPagination(allProducts);
+      })
+      .catch(err => {
+        document.getElementById("productGrid").innerText = "Failed to load products.";
+        console.error("Sheet fetch error:", err);
+      });
+  </script>
+</body>
+</html>

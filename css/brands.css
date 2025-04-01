@@ -1,0 +1,104 @@
+/* Genel Sayfa Ayarları */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+  
+  /* Başlık */
+  h1 {
+    text-align: center;
+    color: #222;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  /* Arama Kutusu */
+  #searchInput {
+    display: block;
+    margin: 0 auto 30px;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Harf Filtresi */
+  .alphabet-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .alphabet-filter a {
+    text-decoration: none;
+    background-color: #3f51b5;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .alphabet-filter a:hover {
+    background-color: #2c3e90;
+  }
+  
+  /* Marka Listesi */
+  .brand-list {
+    column-count: 3;
+    column-gap: 40px;
+    padding: 0 20px;
+  }
+  
+  .brand-list p {
+    break-inside: avoid;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 4px 0;
+  }
+  
+  /* Ana Sayfaya Geri Dön Butonu */
+  .back-home {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .back-home a {
+    text-decoration: none;
+    background-color: #a93b2f;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-home a:hover {
+    background-color: #872e25;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #222;
+    color: #eee;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 60px;
+    font-size: 14px;
+  }
+  

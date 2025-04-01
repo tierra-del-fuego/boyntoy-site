@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brands & Manufacturers</title>
+  <link rel="stylesheet" href="css/brands.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Brands & Manufacturers</h1>
+    <input type="text" id="searchInput" placeholder="Search Manufacturer..." />
+    <div class="alphabet-filter">
+      <a href="#0-9">0-9</a>
+      <a href="#A">A</a>
+      <a href="#B">B</a>
+      <a href="#C">C</a>
+      <a href="#D">D</a>
+      <a href="#E">E</a>
+      <a href="#F">F</a>
+      <a href="#G">G</a>
+      <a href="#H">H</a>
+      <a href="#I">I</a>
+      <a href="#J">J</a>
+      <a href="#K">K</a>
+      <a href="#L">L</a>
+      <a href="#M">M</a>
+      <a href="#N">N</a>
+      <a href="#O">O</a>
+      <a href="#P">P</a>
+      <a href="#Q">Q</a>
+      <a href="#R">R</a>
+      <a href="#S">S</a>
+      <a href="#T">T</a>
+      <a href="#U">U</a>
+      <a href="#V">V</a>
+      <a href="#W">W</a>
+      <a href="#X">X</a>
+      <a href="#Y">Y</a>
+      <a href="#Z">Z</a>
+    </div>
+    <div id="brandList" class="brand-list">
+      <!-- Brand items will be dynamically inserted here -->
+    </div>
+    <div class="back-home">
+      <a href="index.html">← Back to Main Website</a>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>© 2025 Boyntoy LLC. All rights reserved.</p>
+  </footer>
+
+  <script src="js/brands.js"></script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.getElementById("searchInput");
+      const brandList = document.getElementById("brandList");
+
+      fetch("brands.json")
+        .then((response) => response.json())
+        .then((data) => {
+          renderBrands(data);
+
+          searchInput.addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase();
+            const filtered = data.filter((brand) => brand.toLowerCase().includes(searchTerm));
+            renderBrands(filtered);
+          });
+        });
+
+      function renderBrands(brands) {
+        const grouped = brands.reduce((acc, brand) => {
+          const firstChar = /^[0-9]/.test(brand) ? "0-9" : brand[0].toUpperCase();
+          if (!acc[firstChar]) acc[firstChar] = [];
+          acc[firstChar].push(brand);
+          return acc;
+        }, {});
+
+        brandList.innerHTML = Object.keys(grouped).sort().map(letter => `
+          <div class="brand-group">
+            <h2 id="${letter}">${letter}</h2>
+            <ul>
+              ${grouped[letter].map(brand => `<li>${brand}</li>`).join("")}
+            </ul>
+          </div>
+        `).join("");
+      }
+    });
+  </script>
+  
+</body>
+</html>
