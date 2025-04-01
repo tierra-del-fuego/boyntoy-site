@@ -1,206 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8"/>
+  <title>Boyntoy | Product Gallery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Boyntoy Product Gallery</title>
-  <style>
-    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-
-    .search-box { text-align: center; margin-bottom: 20px; }
-    .search-box input {
-      padding: 10px; font-size: 16px;
-      width: 300px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      grid-auto-rows: 420px;
-      align-items: stretch;
-    }
-
-    .product-card {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-      cursor: pointer;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
-
-    .product-card h3 {
-      margin: 10px 0 5px;
-      font-size: 18px;
-      flex-grow: 1;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .pagination button {
-      padding: 8px 12px;
-      border: none;
-      background: #ddd;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .pagination button.active {
-      background: #ff6600;
-      color: white;
-    }
-
-    .modal, .lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      justify-content: center;
-      align-items: center;
-      z-index: 1001;
-    }
-
-    .modal { background: rgba(0,0,0,0.7); }
-
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 900px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .modal-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .modal-gallery img {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .lightbox { background: rgba(0,0,0,0.9); }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border: 4px solid white;
-      border-radius: 10px;
-    }
-
-    .lightbox-controls {
-      position: absolute;
-      top: 50%;
-      width: 90vw;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-
-    .lightbox-controls button {
-      pointer-events: all;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: none;
-      font-size: 36px;
-      cursor: pointer;
-      padding: 0 20px;
-      user-select: none;
-    }
-
-    .lightbox:after {
-      content: '✖';
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 32px;
-      cursor: pointer;
-    }
-
-    .close-btn {
-      float: right;
-      background: #ff6600;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .ebay-link {
-      display: inline-block;
-      padding: 8px 16px;
-      background: #ff6600;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/products.css?v=4">
+  <link rel="icon" href="/images/favicon-ByT.ico" type="image/x-icon">
 </head>
 <body>
-
-<h2 style="text-align:center">Product Gallery</h2>
-
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="Search product name or brand...">
-</div>
-
-<div class="product-grid" id="productGrid"></div>
-<div class="pagination" id="pagination"></div>
-
-<!-- Modal -->
-<div class="modal" id="productModal">
-  <div class="modal-content">
-    <button class="close-btn" onclick="closeModal()">Close</button>
-    <h3 id="modalTitle"></h3>
-    <div class="modal-gallery" id="modalGallery"></div>
-    <p><strong>Brand:</strong> <span id="modalBrand"></span></p>
-    <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
-    <a id="modalEbay" class="ebay-link" href="#" target="_blank">Buy on eBay</a>
+<header>
+  <div class="container">
+    <picture><source srcset="images/boyntoy_logo.webp" type="image/webp"/><img alt="Boyntoy Logo" class="logo" src="images/boyntoy_logo.png"/></picture>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/brands.html">Brands & Manufacturers</a></li>
+        <li><a href="/products.html">Products</a></li>
+        <li><a href="https://www.ebay.com/str/naco" target="_blank">eBay Store</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
-</div>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <div class="lightbox-controls">
-    <button onclick="prevImage(event)">←</button>
-    <button onclick="nextImage(event)">→</button>
+</header>
+<section class="product-gallery">
+  <h2 style="text-align:center">Product Gallery</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search product name or brand...">
   </div>
-  <img src="" alt="Large View" id="lightboxImg">
+  <div class="product-grid" id="productGrid"></div>
+  <div class="pagination" id="pagination"></div>
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">Close</button>
+      <h3 id="modalTitle"></h3>
+      <div class="modal-gallery" id="modalGallery"></div>
+      <p><strong>Brand:</strong> <span id="modalBrand"></span></p>
+      <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
+      <a id="modalEbay" class="ebay-link" href="#" target="_blank">Buy on eBay</a>
+    </div>
+  </div>
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-controls">
+      <button onclick="prevImage(event)">←</button>
+      <button onclick="nextImage(event)">→</button>
+    </div>
+    <img src="" alt="Large View" id="lightboxImg">
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <p>© 2025 Boyntoy LLC. All rights reserved.</p>
+  </div>
+  <div class="social-icons">
+    <a href="https://www.ebay.com/str/naco" target="_blank"><img src="images/ebay.png" alt="eBay Icon" width="32" height="32"></a>
+    <a href="https://www.linkedin.com/in/m-baykal-710aa2306/recent-activity/all/" target="_blank"><img src="images/linkedin.png" alt="LinkedIn Icon" width="32" height="32"></a>
+    <a href="https://www.facebook.com/people/Boyntoy-LLC/61567381316910/" target="_blank"><img src="images/facebook.png" alt="Facebook Icon" width="32" height="32"></a>
+    <a href="https://www.instagram.com/boyntoy.llc/" target="_blank"><img src="images/instagram.png" alt="Instagram Icon" width="32" height="32"></a>
+  </div>
+</footer>
+<div class="footer-policies-inline">
+  <a href="/privacy-policy.html">Privacy</a> |
+  <a href="/cookie-policy.html">Cookies</a> |
+  <a href="/terms-of-use.html">Terms</a> |
+  <a href="/usage-policy.html">Usage</a>
 </div>
-
 <script>
   const sheetID = "122nNrYsH7mPXPci6Ks8Ree-Cg5hOsdHttOsebX5gm3A";
   const sheetRange = "Sheet1";
@@ -218,7 +83,7 @@
                   screenWidth > 1024 ? 4 :
                   screenWidth > 768  ? 3 :
                   screenWidth > 500  ? 2 : 1;
-    return columns * 2;
+    return columns * 2; // 2 satır ürün
   }
 
   function renderProducts(products) {
@@ -239,7 +104,6 @@
     prev.textContent = "←";
     prev.onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(filteredProducts); }};
     pagination.appendChild(prev);
-
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement("button");
       btn.textContent = i;
@@ -247,57 +111,51 @@
       btn.onclick = () => { currentPage = i; renderProducts(filteredProducts); };
       pagination.appendChild(btn);
     }
-
     const next = document.createElement("button");
     next.textContent = "→";
     next.onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(filteredProducts); }};
     pagination.appendChild(next);
   }
 
-  // ... HTML üstü aynı kalıyor
-
-fetch(url)
-  .then(res => res.text())
-  .then(text => JSON.parse(text.substr(47).slice(0, -2)))
-  .then(json => {
-    const data = json.table.rows;
-    allProducts = data.map(row => {
-      const cells = row.c.map(c => c ? c.v : "");
-      const name = cells[0] || "";
-      const brand = cells[1] || "";
-      const price = cells[2] || "";
-      const ebay = cells[3] || "";
-      const images = cells.slice(4, 14);
-
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `<img src="${images[0]}" alt="${name}">
-                        <h3>${name}</h3>
-                        <p><strong>Brand:</strong> ${brand}</p>
-                        <p><strong>Price:</strong> $${price}</p>`;
-      card.onclick = () => openModal(name, brand, price, ebay, images);
-      return { card, name: name.toLowerCase(), brand: brand.toLowerCase() };
+  fetch(url)
+    .then(res => res.text())
+    .then(text => JSON.parse(text.substr(47).slice(0, -2)))
+    .then(json => {
+      const data = json.table.rows;
+      allProducts = data.map(row => {
+        const cells = row.c.map(c => c ? c.v : "");
+        const name = cells[0] || "";
+        const brand = cells[1] || "";
+        const price = cells[2] || "";
+        const ebay = cells[3] || "";
+        const images = cells.slice(4, 14);
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${images[0]}" alt="${name}">
+          <h3>${name}</h3>
+          <p><strong>Brand:</strong> ${brand}</p>
+          <p><strong>Price:</strong> $${price}</p>
+          <a href="${ebay}" class="ebay-link" target="_blank">Buy on eBay</a>
+        `;
+        card.onclick = () => openModal(name, brand, price, ebay, images);
+        return { card, name: name.toLowerCase(), brand: brand.toLowerCase() };
+      });
+      filteredProducts = allProducts;
+      renderProducts(filteredProducts);
     });
-    filteredProducts = allProducts;
-    renderProducts(filteredProducts);
-  });
 
-// Arama kutusu düzgün çalışsın diye burada normalize ediyoruz
-
-const searchInput = document.getElementById("searchInput");
-if (searchInput) {
-  searchInput.addEventListener("input", function() {
-    const term = this.value.trim().toLowerCase();
-    filteredProducts = allProducts.filter(p =>
-      p.name.includes(term) || p.brand.includes(term)
-    );
-    currentPage = 1;
-    renderProducts(filteredProducts);
-  });
-}
-
-// ... diğer kodlar aynı
-
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", function() {
+      const term = this.value.trim().toLowerCase();
+      filteredProducts = allProducts.filter(p =>
+        p.name.includes(term) || p.brand.includes(term)
+      );
+      currentPage = 1;
+      renderProducts(filteredProducts);
+    });
+  }
 
   function openModal(name, brand, price, ebay, images) {
     document.getElementById("modalTitle").textContent = name;
@@ -346,6 +204,5 @@ if (searchInput) {
     document.getElementById("lightbox").style.display = "none";
   });
 </script>
-
 </body>
 </html>
