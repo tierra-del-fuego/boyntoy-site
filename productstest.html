@@ -26,119 +26,99 @@
       margin-bottom: 10px;
     }
     .product-card h3 { margin: 10px 0 5px; font-size: 18px; }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 900px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-    .modal-gallery {
+    .pagination {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .modal-gallery img {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.9);
       justify-content: center;
-      align-items: center;
-      z-index: 1001;
+      margin-top: 30px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border: 4px solid white;
-      border-radius: 10px;
-    }
-    .lightbox:after {
-      content: '✖';
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 32px;
-      cursor: pointer;
-    }
-    .close-btn {
-      float: right;
-      background: #ff6600;
-      color: white;
+    .pagination button {
+      padding: 8px 12px;
       border: none;
-      padding: 6px 12px;
+      background: #ddd;
       border-radius: 6px;
       cursor: pointer;
     }
-    .ebay-link {
-      display: inline-block;
-      padding: 8px 16px;
+    .pagination button.active {
       background: #ff6600;
       color: white;
-      text-decoration: none;
-      border-radius: 6px;
     }
   </style>
 </head>
 <body>
   <h2 style="text-align:center">Product Gallery</h2>
   <div class="product-grid" id="productGrid"></div>
-
-  <div class="modal" id="productModal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeModal()">Close</button>
-      <h3 id="modalTitle"></h3>
-      <div class="modal-gallery" id="modalGallery"></div>
-      <p><strong>Brand:</strong> <span id="modalBrand"></span></p>
-      <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
-      <a id="modalEbay" class="ebay-link" href="#" target="_blank">Buy on eBay</a>
-    </div>
-  </div>
-
-  <div class="lightbox" id="lightbox">
-    <img src="" alt="Large View" id="lightboxImg">
-  </div>
+  <div class="pagination" id="pagination"></div>
 
   <script>
     const sheetID = "122nNrYsH7mPXPci6Ks8Ree-Cg5hOsdHttOsebX5gm3A";
     const sheetRange = "Sheet1";
     const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetRange}`;
+    let currentPage = 1;
+    let allProducts = [];
+    let itemsPerPage = 8;
+
+    function calculateItemsPerPage() {
+      const screenWidth = window.innerWidth;
+      let columns = 1;
+      if (screenWidth > 1200) columns = 4;
+      else if (screenWidth > 800) columns = 3;
+      else if (screenWidth > 600) columns = 2;
+      else columns = 1;
+      const rows = Math.floor(window.innerHeight / 300); // 300px approx height per product card
+      return columns * rows || 1;
+    }
+
+    function renderProducts(products) {
+      itemsPerPage = calculateItemsPerPage();
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const visible = products.slice(start, end);
+
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = "";
+      visible.forEach(product => grid.appendChild(product.card));
+
+      renderPagination(products.length);
+    }
+
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+
+      const prev = document.createElement("button");
+      prev.textContent = "←";
+      prev.onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(allProducts); } };
+      pagination.appendChild(prev);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add("active");
+        btn.onclick = () => { currentPage = i; renderProducts(allProducts); };
+        pagination.appendChild(btn);
+      }
+
+      const next = document.createElement("button");
+      next.textContent = "→";
+      next.onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(allProducts); } };
+      pagination.appendChild(next);
+    }
 
     fetch(url)
       .then(res => res.text())
       .then(text => JSON.parse(text.substr(47).slice(0, -2)))
       .then(json => {
         const data = json.table.rows;
-        const container = document.getElementById("productGrid");
-
-        data.forEach(row => {
+        allProducts = data.map(row => {
           const cells = row.c.map(cell => cell ? cell.v : "");
-          const [name, brand, price, ebay, ...images] = cells;
+          const name = cells[0] || "";
+          const brand = cells[1] || "";
+          const price = cells[2] || "";
+          const ebay = cells[3] || "";
+          const images = cells.slice(4, 14);
 
           const card = document.createElement("div");
           card.className = "product-card";
@@ -148,55 +128,25 @@
             <p><strong>Brand:</strong> ${brand}</p>
             <p><strong>Price:</strong> $${price}</p>
           `;
-
           card.onclick = () => openModal(name, brand, price, ebay, images);
 
-          container.appendChild(card);
+          return { card };
         });
+        renderProducts(allProducts);
       })
       .catch(err => {
         document.getElementById("productGrid").innerText = "Failed to load products.";
         console.error(err);
       });
 
-    function openModal(name, brand, price, ebay, images) {
-      document.getElementById("modalTitle").textContent = name;
-      document.getElementById("modalBrand").textContent = brand;
-      document.getElementById("modalPrice").textContent = price;
-      document.getElementById("modalEbay").href = ebay;
-
-      const gallery = document.getElementById("modalGallery");
-      gallery.innerHTML = "";
-
-      images.forEach(img => {
-        if (img) {
-          const imgEl = document.createElement("img");
-          imgEl.src = img;
-          imgEl.alt = name;
-
-          imgEl.addEventListener("click", () => openLightbox(img));
-
-          gallery.appendChild(imgEl);
-        }
-      });
-
-      document.getElementById("productModal").style.display = "flex";
-    }
-
-    function closeModal() {
-      document.getElementById("productModal").style.display = "none";
-    }
-
-    function openLightbox(src) {
-      const lightbox = document.getElementById("lightbox");
-      const img = document.getElementById("lightboxImg");
-      img.src = src;
-      lightbox.style.display = "flex";
-    }
-
-    document.getElementById("lightbox").addEventListener("click", () => {
-      document.getElementById("lightbox").style.display = "none";
+    window.addEventListener("resize", () => {
+      currentPage = 1;
+      renderProducts(allProducts);
     });
+
+    function openModal(name, brand, price, ebay, images) {
+      alert(`Product: ${name}\nBrand: ${brand}\nPrice: $${price}\nLink: ${ebay}`);
+    }
   </script>
 </body>
 </html>
