@@ -145,3 +145,19 @@ function nextImage(e) {
 document.getElementById("lightbox").addEventListener("click", () => {
   document.getElementById("lightbox").style.display = "none";
 });
+.ebay-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #ff6600;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.ebay-link:hover {
+  background: #cc5200;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
