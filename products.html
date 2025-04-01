@@ -132,12 +132,16 @@
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <img src="${images[0]}" alt="${name}">
-          <h3>${name}</h3>
-          <p><strong>Brand:</strong> ${brand}</p>
-          <p><strong>Price:</strong> $${price}</p>
-          <a href="${ebay}" class="ebay-link" target="_blank">Buy on eBay</a>
-        `;
+  <div style="position: relative;">
+    <img src="${images[0]}" alt="${name}">
+    <div class="hover-overlay">Click to view gallery</div>
+  </div>
+  <h3>${name}</h3>
+  <p><strong>Brand:</strong> ${brand}</p>
+  <p><strong>Price:</strong> $${price}</p>
+  <a href="${ebay}" class="ebay-link" target="_blank">Buy on eBay</a>
+`;
+
         card.onclick = () => openModal(name, brand, price, ebay, images);
         return { card, name: name.toLowerCase(), brand: brand.toLowerCase() };
       });
