@@ -1,0 +1,45 @@
+@media (max-width: 600px) {
+    .product-card {
+      padding: 10px;
+    }
+  
+    .product-card h3 {
+      font-size: 16px;
+      margin: 6px 0 4px;
+    }
+  
+    .product-card p {
+      font-size: 14px;
+      margin: 2px 0;
+    }
+  
+    .product-card img {
+      height: 140px;
+      margin-bottom: 8px;
+    }
+  
+    .ebay-link {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  
+    .search-box input {
+      width: 90%;
+      font-size: 15px;
+    }
+  
+    .modal-content {
+      padding: 10px;
+    }
+  
+    .modal-gallery img {
+      width: 90px;
+      height: 90px;
+    }
+  
+    .close-btn {
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+  }
+  
