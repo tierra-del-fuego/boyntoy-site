@@ -9,16 +9,6 @@ let currentGallery = [];
 let currentImageIndex = 0;
 let fuse;
 
-function calculateItemsPerPage() {
-  const screenWidth = window.innerWidth;
-  let columns = screenWidth > 1400 ? 5 :
-                screenWidth > 1024 ? 4 :
-                screenWidth > 768  ? 3 :
-                screenWidth > 500  ? 2 : 1;
-  return columns * 2;
-}
-
-
 function renderProducts(products) {
   const screenWidth = window.innerWidth;
   let columns = 6;
@@ -43,8 +33,6 @@ function renderProducts(products) {
 
   renderPagination(products.length);
 }
-
-
 
 function renderPagination(totalItems) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -131,8 +119,7 @@ function openModal(name, brand, price, ebay, images) {
     el.onclick = () => openLightbox(i);
     gallery.appendChild(el);
   });
-    // ✅ Arka planı blur yap
-    const blurTarget = document.querySelector(".product-gallery");
+  const blurTarget = document.querySelector(".product-gallery");
   if (blurTarget) {
     blurTarget.classList.add("blurred");
   }
@@ -173,20 +160,13 @@ document.getElementById("lightbox").addEventListener("click", () => {
   document.getElementById("lightbox").style.display = "none";
 });
 
-
-
-
-
-// 🧠 Ekran boyutu değişince ürünleri yeniden hizala
-
-// 💪 Sağlam responsive: ekran boyutu değişince 200ms sonra yeniden render
-
+// ✅ Tek resize handler — stretch problemi çözülür
 let resizeTimeout;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    if (filteredProducts && filteredProducts.length > 0) {
+    if (filteredProducts.length > 0) {
       renderProducts(filteredProducts);
     }
-  }, 200); // 200ms sonra yeniden render
+  }, 200);
 });
