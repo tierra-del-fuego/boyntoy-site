@@ -177,12 +177,7 @@ document.getElementById("lightbox").addEventListener("click", () => {
 
 
 
-// 🧠 Ekran boyutu değişince ürünleri yeniden hizala
-
-});
-
-
-// 💪 Sağlam responsive: ekran boyutu değişince 200ms sonra yeniden render
+// ✅ Ekran boyutu değişince ürünleri yeniden hizala (tek ve sağlam versiyon)
 let resizeTimeout;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimeout);
