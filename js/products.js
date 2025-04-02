@@ -18,14 +18,18 @@ function calculateItemsPerPage() {
   return columns * 2;
 }
 
+
 function renderProducts(products) {
   const screenWidth = window.innerWidth;
-  const columns = screenWidth > 1400 ? 5 :
-                  screenWidth > 1024 ? 4 :
-                  screenWidth > 768  ? 3 :
-                  screenWidth > 500  ? 2 : 1;
+  let columns = 6;
 
-  const rows = 2; // hep 2 satır
+  if (screenWidth <= 500) columns = 1;
+  else if (screenWidth <= 768) columns = 2;
+  else if (screenWidth <= 992) columns = 3;
+  else if (screenWidth <= 1280) columns = 4;
+  else if (screenWidth <= 1600) columns = 5;
+
+  const rows = 2;
   itemsPerPage = columns * rows;
 
   const start = (currentPage - 1) * itemsPerPage;
@@ -34,8 +38,12 @@ function renderProducts(products) {
   const grid = document.getElementById("productGrid");
   grid.innerHTML = "";
   visible.forEach(product => grid.appendChild(product.card));
+
+  grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+
   renderPagination(products.length);
 }
+
 
 
 function renderPagination(totalItems) {
