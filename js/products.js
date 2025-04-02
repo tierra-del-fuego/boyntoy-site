@@ -102,7 +102,9 @@ fetch(url)
     filteredProducts = allProducts;
     renderProducts(filteredProducts);
   });
-
+  window.addEventListener("resize", () => {
+    renderProducts(filteredProducts);
+  });
 const searchInput = document.getElementById("searchInput");
 if (searchInput) {
   searchInput.addEventListener("input", function() {
