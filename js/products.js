@@ -22,6 +22,7 @@ function calculateItemsPerPage() {
 function renderProducts(products) {
   const screenWidth = window.innerWidth;
   let columns = 6;
+  console.log('Columns:', columns);
 
   if (screenWidth <= 500) columns = 1;
   else if (screenWidth <= 768) columns = 2;
