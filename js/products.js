@@ -181,3 +181,12 @@ document.getElementById("lightbox").addEventListener("click", () => {
 window.addEventListener("resize", () => {
   renderProducts(filteredProducts);
 });
+let resizeTimeout;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (filteredProducts && filteredProducts.length > 0) {
+      renderProducts(filteredProducts);
+    }
+  }, 200); // hafif gecikmeli tetikleyelim
+});
