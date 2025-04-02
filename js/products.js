@@ -177,7 +177,10 @@ document.getElementById("lightbox").addEventListener("click", () => {
 
 
 
-// ✅ Ekran boyutu değişince ürünleri yeniden hizala (tek ve sağlam versiyon)
+// 🧠 Ekran boyutu değişince ürünleri yeniden hizala
+
+// 💪 Sağlam responsive: ekran boyutu değişince 200ms sonra yeniden render
+
 let resizeTimeout;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimeout);
@@ -185,5 +188,5 @@ window.addEventListener("resize", () => {
     if (filteredProducts && filteredProducts.length > 0) {
       renderProducts(filteredProducts);
     }
-  }, 200);
+  }, 200); // 200ms sonra yeniden render
 });
