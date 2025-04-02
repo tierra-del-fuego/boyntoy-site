@@ -22,7 +22,6 @@ function calculateItemsPerPage() {
 function renderProducts(products) {
   const screenWidth = window.innerWidth;
   let columns = 6;
-  console.log('Columns:', columns);
 
   if (screenWidth <= 500) columns = 1;
   else if (screenWidth <= 768) columns = 2;
@@ -102,9 +101,7 @@ fetch(url)
     filteredProducts = allProducts;
     renderProducts(filteredProducts);
   });
-  window.addEventListener("resize", () => {
-    renderProducts(filteredProducts);
-  });
+
 const searchInput = document.getElementById("searchInput");
 if (searchInput) {
   searchInput.addEventListener("input", function() {
@@ -178,3 +175,9 @@ document.getElementById("lightbox").addEventListener("click", () => {
 
 
 
+
+
+// 🧠 Ekran boyutu değişince ürünleri yeniden hizala
+window.addEventListener("resize", () => {
+  renderProducts(filteredProducts);
+});
