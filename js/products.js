@@ -168,5 +168,5 @@ window.addEventListener("resize", () => {
     if (filteredProducts.length > 0) {
       renderProducts(filteredProducts);
     }
-  }, 200);
+  }, 2);
 });
