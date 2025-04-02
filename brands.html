@@ -1,94 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brands & Manufacturers</title>
-  <link rel="stylesheet" href="css/brands.css" />
+  <meta charset="utf-8"/>
+  <title>Boyntoy | Product Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/products.css?v=4">
+  <link rel="icon" href="/images/favicon-ByT.ico" type="image/x-icon">
 </head>
 <body>
+<header>
   <div class="container">
-    <h1>Brands & Manufacturers</h1>
-    <input type="text" id="searchInput" placeholder="Search Manufacturer..." />
-    <div class="alphabet-filter">
-      <a href="#0-9">0-9</a>
-      <a href="#A">A</a>
-      <a href="#B">B</a>
-      <a href="#C">C</a>
-      <a href="#D">D</a>
-      <a href="#E">E</a>
-      <a href="#F">F</a>
-      <a href="#G">G</a>
-      <a href="#H">H</a>
-      <a href="#I">I</a>
-      <a href="#J">J</a>
-      <a href="#K">K</a>
-      <a href="#L">L</a>
-      <a href="#M">M</a>
-      <a href="#N">N</a>
-      <a href="#O">O</a>
-      <a href="#P">P</a>
-      <a href="#Q">Q</a>
-      <a href="#R">R</a>
-      <a href="#S">S</a>
-      <a href="#T">T</a>
-      <a href="#U">U</a>
-      <a href="#V">V</a>
-      <a href="#W">W</a>
-      <a href="#X">X</a>
-      <a href="#Y">Y</a>
-      <a href="#Z">Z</a>
-    </div>
-    <div id="brandList" class="brand-list">
-      <!-- Brand items will be dynamically inserted here -->
-    </div>
-    <div class="back-home">
-      <a href="index.html">← Back to Main Website</a>
+    <picture><source srcset="images/boyntoy_logo.webp" type="image/webp"/><img alt="Boyntoy Logo" class="logo" src="images/boyntoy_logo.png"/></picture>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/brands.html">Brands & Manufacturers</a></li>
+        <li><a href="/products.html">Products</a></li>
+        <li><a href="https://www.ebay.com/str/naco" target="_blank">eBay Store</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<section class="product-gallery">
+  <h2 style="text-align:center">Product Gallery</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search product name or brand...">
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+  <div class="pagination" id="pagination"></div>
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">Close</button>
+      <h3 id="modalTitle"></h3>
+      <div class="modal-gallery" id="modalGallery"></div>
+      <p><strong>Brand:</strong> <span id="modalBrand"></span></p>
+      <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
+      <a id="modalEbay" class="ebay-link" href="#" target="_blank">Buy on eBay</a>
     </div>
   </div>
-  <footer class="footer">
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-controls">
+      <button onclick="prevImage(event)">←</button>
+      <button onclick="nextImage(event)">→</button>
+    </div>
+    <img src="" alt="Large View" id="lightboxImg">
+  </div>
+</section>
+<footer>
+  <div class="container">
     <p>© 2025 Boyntoy LLC. All rights reserved.</p>
-  </footer>
+  </div>
+  <div class="social-icons">
+    <a href="https://www.ebay.com/str/naco" target="_blank"><img src="images/ebay.png" alt="eBay Icon" width="32" height="32"></a>
+    <a href="https://www.linkedin.com/in/m-baykal-710aa2306/recent-activity/all/" target="_blank"><img src="images/linkedin.png" alt="LinkedIn Icon" width="32" height="32"></a>
+    <a href="https://www.facebook.com/people/Boyntoy-LLC/61567381316910/" target="_blank"><img src="images/facebook.png" alt="Facebook Icon" width="32" height="32"></a>
+    <a href="https://www.instagram.com/boyntoy.llc/" target="_blank"><img src="images/instagram.png" alt="Instagram Icon" width="32" height="32"></a>
+  </div>
+</footer>
+<div class="footer-policies-inline">
+  <a href="/privacy-policy.html">Privacy</a> |
+  <a href="/cookie-policy.html">Cookies</a> |
+  <a href="/terms-of-use.html">Terms</a> |
+  <a href="/usage-policy.html">Usage</a>
+</div>
+<script>
+  const sheetID = "122nNrYsH7mPXPci6Ks8Ree-Cg5hOsdHttOsebX5gm3A";
+  const sheetRange = "Sheet1";
+  const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetRange}`;
+  let currentPage = 1;
+  let allProducts = [];
+  let filteredProducts = [];
+  let itemsPerPage = 8;
+  let currentGallery = [];
+  let currentImageIndex = 0;
 
-  <script src="js/brands.js"></script>
+  function calculateItemsPerPage() {
+    const screenWidth = window.innerWidth;
+    let columns = screenWidth > 1400 ? 5 :
+                  screenWidth > 1024 ? 4 :
+                  screenWidth > 768  ? 3 :
+                  screenWidth > 500  ? 2 : 1;
+    return columns * 2; // 2 satır ürün
+  }
 
+  function renderProducts(products) {
+  const screenWidth = window.innerWidth;
+  let columns = 6;
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const searchInput = document.getElementById("searchInput");
-      const brandList = document.getElementById("brandList");
+  if (screenWidth <= 500) columns = 1;
+  else if (screenWidth <= 768) columns = 2;
+  else if (screenWidth <= 992) columns = 3;
+  else if (screenWidth <= 1280) columns = 4;
+  else if (screenWidth <= 1600) columns = 5;
 
-      fetch("brands.json")
-        .then((response) => response.json())
-        .then((data) => {
-          renderBrands(data);
+  const rows = 2;
+  itemsPerPage = columns * rows;
 
-          searchInput.addEventListener("input", function () {
-            const searchTerm = this.value.toLowerCase();
-            const filtered = data.filter((brand) => brand.toLowerCase().includes(searchTerm));
-            renderBrands(filtered);
-          });
-        });
+  const start = (currentPage - 1) * itemsPerPage;
+  const visible = products.slice(start, start + itemsPerPage);
 
-      function renderBrands(brands) {
-        const grouped = brands.reduce((acc, brand) => {
-          const firstChar = /^[0-9]/.test(brand) ? "0-9" : brand[0].toUpperCase();
-          if (!acc[firstChar]) acc[firstChar] = [];
-          acc[firstChar].push(brand);
-          return acc;
-        }, {});
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
+  visible.forEach(product => grid.appendChild(product.card));
 
-        brandList.innerHTML = Object.keys(grouped).sort().map(letter => `
-          <div class="brand-group">
-            <h2 id="${letter}">${letter}</h2>
-            <ul>
-              ${grouped[letter].map(brand => `<li>${brand}</li>`).join("")}
-            </ul>
-          </div>
-        `).join("");
-      }
+  // 🧠 İşte burası kritik: kaç sütun olacağını DOM'a yazıyoruz
+  grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+
+  renderPagination(products.length);
+}
+
+  function renderPagination(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const prev = document.createElement("button");
+    prev.textContent = "←";
+    prev.onclick = () => { if (currentPage > 1) { currentPage--; renderProducts(filteredProducts); }};
+    pagination.appendChild(prev);
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.onclick = () => { currentPage = i; renderProducts(filteredProducts); };
+      pagination.appendChild(btn);
+    }
+    const next = document.createElement("button");
+    next.textContent = "→";
+    next.onclick = () => { if (currentPage < totalPages) { currentPage++; renderProducts(filteredProducts); }};
+    pagination.appendChild(next);
+  }
+
+  fetch(url)
+    .then(res => res.text())
+    .then(text => JSON.parse(text.substr(47).slice(0, -2)))
+    .then(json => {
+      const data = json.table.rows;
+      allProducts = data.map(row => {
+        const cells = row.c.map(c => c ? c.v : "");
+        const name = cells[0] || "";
+        const brand = cells[1] || "";
+        const price = cells[2] || "";
+        const ebay = cells[3] || "";
+        const images = cells.slice(4, 14);
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+  <div style="position: relative;">
+    <img src="${images[0]}" alt="${name}">
+    <div class="hover-overlay">Click to view gallery</div>
+  </div>
+  <h3>${name}</h3>
+  <p><strong>Brand:</strong> ${brand}</p>
+  <p><strong>Price:</strong> $${price}</p>
+  <a href="${ebay}" class="ebay-link" target="_blank">Buy on eBay</a>
+`;
+
+        card.onclick = () => openModal(name, brand, price, ebay, images);
+        return { card, name: name.toLowerCase(), brand: brand.toLowerCase() };
+      });
+      filteredProducts = allProducts;
+      renderProducts(filteredProducts);
     });
-  </script>
-  
+
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", function() {
+      const term = this.value.trim().toLowerCase();
+      filteredProducts = allProducts.filter(p =>
+        p.name.includes(term) || p.brand.includes(term)
+      );
+      currentPage = 1;
+      renderProducts(filteredProducts);
+    });
+  }
+
+  function openModal(name, brand, price, ebay, images) {
+    document.getElementById("modalTitle").textContent = name;
+    document.getElementById("modalBrand").textContent = brand;
+    document.getElementById("modalPrice").textContent = price;
+    document.getElementById("modalEbay").href = ebay;
+    const gallery = document.getElementById("modalGallery");
+    gallery.innerHTML = "";
+    currentGallery = images.filter(Boolean);
+    currentGallery.forEach((img, i) => {
+      const el = document.createElement("img");
+      el.src = img;
+      el.onclick = () => openLightbox(i);
+      gallery.appendChild(el);
+    });
+    document.getElementById("productModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+  }
+
+  function openLightbox(index) {
+    currentImageIndex = index;
+    document.getElementById("lightboxImg").src = currentGallery[index];
+    document.getElementById("lightbox").style.display = "flex";
+  }
+
+  function prevImage(e) {
+    e.stopPropagation();
+    if (currentImageIndex > 0) {
+      currentImageIndex--;
+      document.getElementById("lightboxImg").src = currentGallery[currentImageIndex];
+    }
+  }
+
+  function nextImage(e) {
+    e.stopPropagation();
+    if (currentImageIndex < currentGallery.length - 1) {
+      currentImageIndex++;
+      document.getElementById("lightboxImg").src = currentGallery[currentImageIndex];
+    }
+  }
+
+  document.getElementById("lightbox").addEventListener("click", () => {
+    document.getElementById("lightbox").style.display = "none";
+  });
+</script>
+
 </body>
 </html>
