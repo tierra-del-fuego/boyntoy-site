@@ -19,14 +19,24 @@ function calculateItemsPerPage() {
 }
 
 function renderProducts(products) {
-  itemsPerPage = calculateItemsPerPage();
+  const screenWidth = window.innerWidth;
+  const columns = screenWidth > 1400 ? 5 :
+                  screenWidth > 1024 ? 4 :
+                  screenWidth > 768  ? 3 :
+                  screenWidth > 500  ? 2 : 1;
+
+  const rows = 2; // hep 2 satır
+  itemsPerPage = columns * rows;
+
   const start = (currentPage - 1) * itemsPerPage;
   const visible = products.slice(start, start + itemsPerPage);
+
   const grid = document.getElementById("productGrid");
   grid.innerHTML = "";
   visible.forEach(product => grid.appendChild(product.card));
   renderPagination(products.length);
 }
+
 
 function renderPagination(totalItems) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
