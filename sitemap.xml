@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://boyntoy.com/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://boyntoy.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://boyntoy.com/index-es.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://boyntoy.com/index-it.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://boyntoy.com/index-fr.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://boyntoy.com/index-de.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://boyntoy.com/index-ru.html"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://boyntoy.com/index-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://boyntoy.com/index-nl.html"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://boyntoy.com/index-pt.html"/>
+  </url>
   <url>
     <loc>https://www.boyntoy.com/Products/1-pct-52314611-brake-wheel-set-with-wheel-r-m-konecranes.html</loc>
   </url>
