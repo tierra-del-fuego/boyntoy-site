@@ -198,10 +198,12 @@
 <h2>Contact Us</h2>
 <p>Email: <span id="email"></span></p>
 <script>
-  const part1 = "mb";
-  const part2 = "boyntoy.com";
-  const email = part1 + "@" + part2;
-  document.getElementById("email").innerHTML = '<a href="mailto:' + email + '">' + email + '</a>';
+  document.addEventListener("DOMContentLoaded", function() {
+    const part1 = "mb";
+    const part2 = "boyntoy.com";
+    const email = part1 + "@" + part2;
+    document.getElementById("email").innerHTML = '<a href="mailto:' + email + '">' + email + '</a>';
+  });
 </script>
 <p>Phone (USA): +1 (505) 273-7589</p>
 <p>Phone (TR): +90 555 983 3590</p>
