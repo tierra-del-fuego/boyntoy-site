@@ -170,13 +170,31 @@ document.getElementById("email").innerHTML = '<a href="mailto:' + email + '">' +
 <p>Téléphone (USA) : +1 (505) 273-7589</p>
 <p>Téléphone (TR) : +90 555 983 3590</p>
 <a class="whatsapp-btn" href="https://wa.me/905559833590" target="_blank">💬 Écrivez-nous sur WhatsApp</a>
-<form action="https://formcarry.com/s/YZoXyB88iSE" method="POST">
-<input name="name" placeholder="Votre nom" required type="text"/>
-<input name="email" placeholder="Votre e-mail" required type="email"/>
-<textarea name="message" placeholder="Votre message" required rows="5"></textarea>
-<div class="g-recaptcha" data-sitekey="6LdYWAArAAAAAB3Vjc6tEDQHU36cMiG1cjts1Od9"></div>
-<button type="submit">Envoyer</button>
+<form action="https://formcarry.com/s/YZoXyB88iSE" method="POST" onsubmit="return validateRecaptcha();">
+  <input name="name" placeholder="Your Name" required type="text" />
+  <input name="email" placeholder="Your Email" required type="email" />
+  <textarea name="message" placeholder="Your Message" required rows="5"></textarea>
+
+  <!-- reCAPTCHA -->
+  <div class="g-recaptcha" data-sitekey="6LdYWAArAAAAAB3Vjc6tEDQHU36cMiG1cjts1Od9"></div>
+
+  <!-- Gizli honeypot alanı (botlar doldurursa form gönderilmez) -->
+  <input type="text" name="_honeypot" style="display:none" tabindex="-1" autocomplete="off" />
+
+  <button type="submit">Send</button>
 </form>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+  function validateRecaptcha() {
+    var response = grecaptcha.getResponse();
+    if (response.length === 0) {
+      alert("Veuillez compléter le reCAPTCHA.");
+      return false; // form gönderilmez
+    }
+    return true;
+  }
+</script>
 </div>
 </section>
 <footer>
