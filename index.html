@@ -206,13 +206,44 @@
 <p>Phone (USA): +1 (505) 273-7589</p>
 <p>Phone (TR): +90 555 983 3590</p>
 <a class="whatsapp-btn" href="https://wa.me/905559833590" target="_blank">💬 Message Us on WhatsApp</a>
-<form action="https://formspree.io/f/xzzrbpey" method="POST">
-<input name="name" placeholder="Your Name" required="" type="text"/>
-<input name="email" placeholder="Your Email" required="" type="email"/>
-<textarea name="message" placeholder="Your Message" required="" rows="5"></textarea>
-<input type="hidden" name="_redirect" value="https://boyntoy.com/thank-you.html">
-<button type="submit">Send</button>
+<form id="contact-form">
+  <input name="name" placeholder="Your Name" required type="text">
+  <input name="email" placeholder="Your Email" required type="email">
+  <textarea name="message" placeholder="Your Message" required rows="5"></textarea>
+  <button type="submit">Send</button>
+  <p id="form-status" style="margin-top: 10px;"></p>
 </form>
+<script>
+  document.getElementById("contact-form").addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const status = document.getElementById("form-status");
+    const form = event.target;
+    const data = new FormData(form);
+  
+    try {
+      const response = await fetch("https://formspree.io/f/xzzrbpey", {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+  
+      if (response.ok) {
+        status.innerHTML = "✅ Message sent successfully!";
+        status.style.color = "green";
+        form.reset();
+      } else {
+        status.innerHTML = "❌ Something went wrong. Please try again.";
+        status.style.color = "red";
+      }
+    } catch (error) {
+      status.innerHTML = "⚠️ Network error. Please check your connection.";
+      status.style.color = "red";
+    }
+  });
+  </script>
+  
 </div>
 </section>
 
