@@ -367,14 +367,14 @@ background-repeat: no-repeat;
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   margin-top: 15px;
 }
 
 .social-icons a {
   display: inline-block;
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .social-icons img {
@@ -384,5 +384,5 @@ background-repeat: no-repeat;
 }
 
 .social-icons a:hover {
-  opacity: 0.8;
+  opacity: 0.5;
 }
