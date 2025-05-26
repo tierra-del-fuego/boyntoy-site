@@ -1,7 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<urlset 
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:html="http://www.w3.org/1999/xhtml">
 
 
 <url>
@@ -9,15 +7,15 @@
   <lastmod>2025-04-23</lastmod>
   <changefreq>weekly</changefreq>
   <priority>1.0</priority>
-  <xhtml:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/index.html"/>
-  <xhtml:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/index-es.html"/>
-  <xhtml:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/index-it.html"/>
-  <xhtml:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/index-fr.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="https://www.boyntoy.com/index-de.html"/>
-  <xhtml:link rel="alternate" hreflang="ru" href="https://www.boyntoy.com/index-ru.html"/>
-  <xhtml:link rel="alternate" hreflang="zh" href="https://www.boyntoy.com/index-zh.html"/>
-  <xhtml:link rel="alternate" hreflang="nl" href="https://www.boyntoy.com/index-nl.html"/>
-  <xhtml:link rel="alternate" hreflang="pt" href="https://www.boyntoy.com/index-pt.html"/>
+  <html:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/index.html" />
+  <html:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/index-es.html" />
+  <html:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/index-it.html" />
+  <html:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/index-fr.html" />
+  <html:link rel="alternate" hreflang="de" href="https://www.boyntoy.com/index-de.html" />
+  <html:link rel="alternate" hreflang="ru" href="https://www.boyntoy.com/index-ru.html" />
+  <html:link rel="alternate" hreflang="zh" href="https://www.boyntoy.com/index-zh.html" />
+  <html:link rel="alternate" hreflang="nl" href="https://www.boyntoy.com/index-nl.html" />
+  <html:link rel="alternate" hreflang="pt" href="https://www.boyntoy.com/index-pt.html" />
 </url>
 
 <url>
@@ -25,15 +23,15 @@
   <lastmod>2025-04-23</lastmod>
   <changefreq>weekly</changefreq>
   <priority>1.0</priority>
-  <xhtml:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/cookie-policy.html"/>
-  <xhtml:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/cookie-policy-ES.html"/>
-  <xhtml:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/cookie-policy-IT.html"/>
-  <xhtml:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/cookie-policy-FR.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="https://www.boyntoy.com/cookie-policy-DE.html"/>
-  <xhtml:link rel="alternate" hreflang="ru" href="https://www.boyntoy.com/cookie-policy-RU.html"/>
-  <xhtml:link rel="alternate" hreflang="zh" href="https://www.boyntoy.com/cookie-policy-ZH.html"/>
-  <xhtml:link rel="alternate" hreflang="nl" href="https://www.boyntoy.com/cookie-policy-NL.html"/>
-  <xhtml:link rel="alternate" hreflang="pt" href="https://www.boyntoy.com/cookie-policy-PT.html"/>
+  <html:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/cookie-policy.html" />
+  <html:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/cookie-policy-ES.html" />
+  <html:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/cookie-policy-IT.html" />
+  <html:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/cookie-policy-FR.html" />
+  <html:link rel="alternate" hreflang="de" href="https://www.boyntoy.com/cookie-policy-DE.html" />
+  <html:link rel="alternate" hreflang="ru" href="https://www.boyntoy.com/cookie-policy-RU.html" />
+  <html:link rel="alternate" hreflang="zh" href="https://www.boyntoy.com/cookie-policy-ZH.html" />
+  <html:link rel="alternate" hreflang="nl" href="https://www.boyntoy.com/cookie-policy-NL.html" />
+  <html:link rel="alternate" hreflang="pt" href="https://www.boyntoy.com/cookie-policy-PT.html" />
 </url>
 
 <url>
@@ -41,15 +39,15 @@
   <lastmod>2025-04-23</lastmod>
   <changefreq>weekly</changefreq>
   <priority>1.0</priority>
-  <xhtml:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/privacy-policy.html"/>
-  <xhtml:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/privacy-policy-ES.html"/>
-  <xhtml:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/privacy-policy-IT.html"/>
-  <xhtml:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/privacy-policy-FR.html"/>
-  <xhtml:link rel="alternate" hreflang="de" href="https://www.boyntoy.com/privacy-policy-DE.html"/>
-  <xhtml:link rel="alternate" hreflang="ru" href="https://www.boyntoy.com/privacy-policy-RU.html"/>
-  <xhtml:link rel="alternate" hreflang="zh" href="https://www.boyntoy.com/privacy-policy-ZH.html"/>
-  <xhtml:link rel="alternate" hreflang="nl" href="https://www.boyntoy.com/privacy-policy-NL.html"/>
-  <xhtml:link rel="alternate" hreflang="pt" href="https://www.boyntoy.com/privacy-policy-PT.html"/>
+  <html:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/privacy-policy.html" />
+  <html:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/privacy-policy-ES.html" />
+  <html:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/privacy-policy-IT.html" />
+  <html:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/privacy-policy-FR.html" />
+  <html:link rel="alternate" hreflang="de" href="https://www.boyntoy.com/privacy-policy-DE.html" />
+  <html:link rel="alternate" hreflang="ru" href="https://www.boyntoy.com/privacy-policy-RU.html" />
+  <html:link rel="alternate" hreflang="zh" href="https://www.boyntoy.com/privacy-policy-ZH.html" />
+  <html:link rel="alternate" hreflang="nl" href="https://www.boyntoy.com/privacy-policy-NL.html" />
+  <html:link rel="alternate" hreflang="pt" href="https://www.boyntoy.com/privacy-policy-PT.html" />
 </url>
 
 
@@ -58,7 +56,7 @@
 <url>
 <loc>https://www.boyntoy.com/products.html</loc><lastmod>2025-04-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url>
-<loc>https://www.boyntoy.com/products1.html</loc><lastmod>2025-05-26</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<loc>https://www.boyntoy.com/products1.html</loc><lastmod>2025-05-26</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
 <url>
 <loc>https://www.boyntoy.com/terms-of-use-DE.html</loc><lastmod>2025-04-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
 <loc>https://www.boyntoy.com/terms-of-use-ES.html</loc><lastmod>2025-04-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
