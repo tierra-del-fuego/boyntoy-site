@@ -10,7 +10,6 @@
   <changefreq>weekly</changefreq>
   <priority>1.0</priority>
   <xhtml:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/index.html"/>
-  <xhtml:link rel="alternate" hreflang="en" href="https://www.boyntoy.com/products1.html"/>
   <xhtml:link rel="alternate" hreflang="es" href="https://www.boyntoy.com/index-es.html"/>
   <xhtml:link rel="alternate" hreflang="it" href="https://www.boyntoy.com/index-it.html"/>
   <xhtml:link rel="alternate" hreflang="fr" href="https://www.boyntoy.com/index-fr.html"/>
@@ -58,6 +57,8 @@
 
 <url>
 <loc>https://www.boyntoy.com/products.html</loc><lastmod>2025-04-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url>
+<loc>https://www.boyntoy.com/products1.html</loc><lastmod>2025-05-26</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 <url>
 <loc>https://www.boyntoy.com/terms-of-use-DE.html</loc><lastmod>2025-04-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
 <loc>https://www.boyntoy.com/terms-of-use-ES.html</loc><lastmod>2025-04-23</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
