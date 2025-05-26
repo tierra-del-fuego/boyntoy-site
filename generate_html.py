@@ -19,11 +19,11 @@ columns = [col["label"] for col in data["table"]["cols"]]
 html = """<html>
 <head>
     <meta charset="utf-8">
-    <title>Ürünler - Boyntoy</title>
-    <meta name="description" content="eBay ürünleri: marka, fiyat ve bağlantı bilgileri.">
+    <title>products - Boyntoy</title>
+    <meta name="description" content="eBay ürünleri: Brand, Pricekllllllllllllll ve bağlantı bilgileri.">
 </head>
 <body>
-    <h1>Ürünler</h1>
+    <h1>Products</h1>
 """
 
 # Her ürün için HTML bloğu
@@ -33,9 +33,9 @@ for row in rows:
     html += f"""
     <div class="product">
         <h2>{item.get('Name', '')}</h2>
-        <p>Marka: {item.get('Brand', '')}</p>
-        <p>Fiyat: {item.get('Price', '')}</p>
-        <p><a href="{item.get('eBay Link', '')}" target="_blank">eBay'de Gör</a></p>
+        <p>Brand: {item.get('Brand', '')}</p>
+        <p>Price: {item.get('Price', '')}</p>
+        <p><a href="{item.get('eBay Link', '')}" target="_blank">eBay link</a></p>
     </div>
     <hr>
     """
