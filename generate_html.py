@@ -43,5 +43,5 @@ for row in rows:
 html += "</body></html>"
 
 # HTML dosyasını kaydet
-with open("products.html", "w", encoding="utf-8") as f:
+with open("products1.html", "w", encoding="utf-8") as f:
     f.write(html)
